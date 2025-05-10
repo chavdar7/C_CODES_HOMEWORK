@@ -14,24 +14,16 @@
 //___________________ Create unique char key for each state______________________
 void Generate_HashTable_Key(const State *const state, unsigned char* key) 
 {
-	int temp_city = state->city, i=0;
-	
-	if(temp_city == 0){
-		key[0] = '0';
-		key[1] = '\0';
-	}
-	else{
-		for(i=0; temp_city>0; i++){
-			key[i] = temp_city%10 + '0';
-			temp_city /= 10;
-		}
-		key[i] = '\0';
-	}
-		
-	if(i>MAX_KEY_SIZE){
-		printf("ERROR: MAX_KEY_SIZE is exceeded in Generate_HashTable_Key. \n");
-		exit(-1);
-	}   
+	// x ve y satranç tahtasında 0-indexli konumları temsil eder.
+    // Örneğin (0, 0) sol üst köşe; (7, 7) sağ alt köşe (8x8 için)
+
+    // Güvenli string üretimi: x ve y 0-99 aralığında olsun (32x32 için yeterli)
+    sprintf((char*)key, "%02d-%02d", state->x, state->y);
+
+    if (strlen((char*)key) > MAX_KEY_SIZE) {
+        printf("ERROR: MAX_KEY_SIZE is exceeded in Generate_HashTable_Key.\n");
+        exit(-1);
+    }
 }
 
 
