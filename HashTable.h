@@ -4,7 +4,7 @@
 #include "data_types.h"
 
 // ========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) COMMANDS ============
-#define HASH_TABLE_BASED_SIZE 25
+#define HASH_TABLE_BASED_SIZE 269
 #define HASH_TABLE_INCREASING_RATE 70
 #define MAX_KEY_SIZE 6
 
@@ -17,7 +17,15 @@ typedef struct {
 
 
 // =========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) DECLARATIONS =======
-void Generate_HashTable_Key(const State *const state, unsigned char* key);
+void Generate_HashTable_Key(const State *const state, unsigned char* key){
+    
+    sprintf((char*)key, "%02d-%02d", state->x, state->y);
+
+    if (strlen((char*)key) >= MAX_KEY_SIZE) {
+        printf("ERROR: MAX_KEY_SIZE is exceeded in Generate_HashTable_Key.\n");
+        exit(-1);
+    }
+};
 
 
 // ======= YOU DO NOT NEED TO CHANGE THIS COMPULSORY DECLARATIONS ==============
