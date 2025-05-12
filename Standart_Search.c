@@ -339,7 +339,7 @@ void Insert_FIFO(Node *const child, Queue **frontier)
     if(Empty(*frontier))
 	 	*frontier = new_queue; 
 	else{ // If frontier is not empty, find the last element of the queue.  
-		for(temp_queue = *frontier; temp_queue->next!= NULL; temp_queue = temp_queue->next);
+		for(temp_queue = *frontier; temp_queue->next!= NULL; temp_queue = temp_queue->next) {}
 	    temp_queue->next = new_queue;		
 	}   
 }
@@ -610,7 +610,7 @@ int Compare_States(const State *const state1, const State *const state2)
 	unsigned char key1[MAX_KEY_SIZE], key2[MAX_KEY_SIZE];
 	Generate_HashTable_Key(state1, key1);
 	Generate_HashTable_Key(state2, key2);	
-	return !strcmp(key1, key2); 
+	return !strcmp((const char*)key1, (const char*)key2); 
 }
 
 
