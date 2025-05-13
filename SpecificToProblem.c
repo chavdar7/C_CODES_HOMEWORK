@@ -12,8 +12,34 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define BOARD_SIZE 8 // veya 16 veya 32
-int blocked[BOARD_SIZE][BOARD_SIZE] = {0}; // 0 = boş, 1 = engelli
+extern int BOARD_SIZE; // veya 16 veya 32
+int **blocked;
+
+int is_valid_position(int x, int y) {
+    return x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE;
+}
+
+
+void initialize_blocked_matrix() {
+    blocked = (int **)malloc(BOARD_SIZE * sizeof(int *));
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        blocked[i] = (int *)malloc(BOARD_SIZE * sizeof(int));
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            blocked[i][j] = 0; // varsayılan olarak bloklanmamış
+        }
+    }
+}
+
+void free_blocked_matrix() {
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        free(blocked[i]);
+    }
+    free(blocked);
+}
+
+
+
+//int blocked[BOARD_SIZE][BOARD_SIZE] = {0}; // 0 = boş, 1 = engelli
 
 // Knight’ın hareketleri (x, y)
 const int dx[8] = {-2, -2, -1, -1, 1, 1, 2, 2};
@@ -24,9 +50,26 @@ State* Create_State()
 {
 	State *state = (State*)malloc(sizeof(State));
     if(state==NULL) Warning_Memory_Allocation(); 
-   
-   	printf("Enter x (row) and y (col) [0-%d]: ", BOARD_SIZE - 1);
-    scanf("%d %d", &state->x, &state->y);
+
+    do {
+        printf("Enter x (row) and y (col) [0-%d]: ", BOARD_SIZE - 1);
+        scanf("%d %d", &state->x, &state->y);
+
+        if (!is_valid_position(state->x, state->y)) {
+            printf("Invalid position! Please enter values within the board.\n");
+        }
+    } while (!is_valid_position(state->x, state->y));
+
+    // Engelli hücreleri kontrol et
+    if (blocked[state->x][state->y] == 1) {
+        printf("The selected position is blocked! Please choose another position.\n");
+        free(state);
+        return Create_State(); // Recursive call to create a new state
+    }
+
+   	// printf("Enter x (row) and y (col) [0-%d]: ", BOARD_SIZE - 1);
+    // scanf("%d %d", &state->x, &state->y);
+
     state->h_n = 0;
 	       
     return state;    

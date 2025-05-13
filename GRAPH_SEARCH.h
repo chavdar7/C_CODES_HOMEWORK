@@ -4,7 +4,9 @@
 #include "data_types.h"
 
 // ==================== WRITE YOUR OPTIONAL COMMANDS ===========================
-#define BOARD_SIZE 8 // or 16 or 32
+// #define BOARD_SIZE 8 // or 16 or 32
+int BOARD_SIZE;
+
 
 // ========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) COMMANDS ============ 
 #define PREDETERMINED_GOAL_STATE  1 // User will initially determine the goal state if it is true (1)

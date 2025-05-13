@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        ".fantomasignore": "ignore",
+        "*.html": "html",
+        "*.css": "css",
+        "data_types.h": "c"
+    }
+}

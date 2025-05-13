@@ -10,9 +10,21 @@ int main()
     enum METHODS method;
     int Max_Level, level;
 	float alpha;
-   
-    // This part must be updated if a new algorithm is added. 
-    printf("1 --> Breast-First Search\n");
+
+    printf("Enter board size (e.g., 8 for 8x8 board): ");
+    scanf("%d", &BOARD_SIZE);
+    extern void initialize_blocked_matrix();
+    initialize_blocked_matrix(); // Initialize the blocked matrix
+
+
+    if (BOARD_SIZE < 3 || BOARD_SIZE > 32) {
+        printf("Invalid board size. Must be between 3 and 32.\n");
+        exit(1);
+    }
+
+
+    // This part must be updated if a new algorithm is added.
+    printf("1 --> Breath-First Search\n");
     printf("2 --> Uniform-Cost Search\n");
     printf("3 --> Depth-First Search\n");
     printf("4 --> Depth-Limited Search\n");
@@ -80,6 +92,9 @@ int main()
     }
 
     Show_Solution_Path(goal);
+
+    extern void free_blocked_matrix();
+    free_blocked_matrix(); // Free the blocked matrix memory
   	
     return 0;
 }
