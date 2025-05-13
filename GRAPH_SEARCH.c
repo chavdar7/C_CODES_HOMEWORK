@@ -22,6 +22,11 @@ int main()
         exit(1);
     }
 
+    extern void Set_Blocked_Cells();
+    Set_Blocked_Cells(); // Set blocked cells in the board
+    extern void Print_Blocked_Cells();
+    Print_Blocked_Cells(); // Show blocked cells in the board
+
 
     // This part must be updated if a new algorithm is added.
     printf("1 --> Breath-First Search\n");

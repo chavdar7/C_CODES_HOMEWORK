@@ -129,3 +129,15 @@ void Set_Blocked_Cells()
     blocked[5][0] = 1; // A6
     blocked[1][1] = 1; // B2
 };
+
+void Print_Blocked_Cells() {
+    printf("Blocked cells:\n");
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            if (blocked[i][j] == 1) {
+                printf("(%d, %d) ", i, j);
+            }
+        }
+    }
+    printf("\n");
+}
