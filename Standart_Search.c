@@ -656,7 +656,7 @@ void Warning_Memory_Allocation()
 //______________________________________________________________________________
 int Compare_States(const State *const state1, const State *const state2)
 {
-	unsigned char key1[MAX_KEY_SIZE], key2[MAX_KEY_SIZE];
+	char key1[MAX_KEY_SIZE], key2[MAX_KEY_SIZE];
 	Generate_HashTable_Key(state1, key1);
 	Generate_HashTable_Key(state2, key2);	
 	return !strcmp((const char*)key1, (const char*)key2); 

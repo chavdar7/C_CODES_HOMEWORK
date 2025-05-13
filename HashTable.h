@@ -13,14 +13,14 @@
 
 // ================== YOU DO NOT NEED TO CHANGE THIS PART ======================
 typedef struct {
-    unsigned int size;
-    unsigned int count;
-    unsigned char** State_Key;
+    int size;
+    int count;
+    char** State_Key; // Updated to use char* instead of unsigned char*
 } Hash_Table;
 
 
 // =========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) DECLARATIONS =======
-void Generate_HashTable_Key(const State *const state, unsigned char* key);
+void Generate_HashTable_Key(const State *const state, char* key);
 
 // ======= YOU DO NOT NEED TO CHANGE THIS COMPULSORY DECLARATIONS ==============
 Hash_Table* New_Hash_Table(const int size);

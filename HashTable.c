@@ -1,4 +1,3 @@
-
 #include "data_types.h"
 #include "HashTable.h"
 #include "GRAPH_SEARCH.h"
@@ -12,15 +11,14 @@
 // =========  YOUR COMPULSORY (BUT SPECIFIC TO THE PROBLEM) FUNCTIONS =======
 
 //___________________ Create unique char key for each state______________________
-void Generate_HashTable_Key(const State *const state, unsigned char* key) 
-{
-	// x ve y satranç tahtasında 0-indexli konumları temsil eder.
+void Generate_HashTable_Key(const State *const state, char* key) {
+    // x ve y satranç tahtasında 0-indexli konumları temsil eder.
     // Örneğin (0, 0) sol üst köşe; (7, 7) sağ alt köşe (8x8 için)
 
     // Güvenli string üretimi: x ve y 0-99 aralığında olsun (32x32 için yeterli)
-    sprintf((char*)key, "%02d-%02d", state->x, state->y);
+    sprintf(key, "%02d-%02d", state->x, state->y);
 
-    if (strlen((char*)key) > MAX_KEY_SIZE) {
+    if (strlen(key) > MAX_KEY_SIZE) {
         printf("ERROR: MAX_KEY_SIZE is exceeded in Generate_HashTable_Key.\n");
         exit(-1);
     }
@@ -77,7 +75,7 @@ Hash_Table* New_Hash_Table(const int size) {
 
     ht->count = 0;
     
-    ht->State_Key = (unsigned char**)calloc(ht->size, sizeof(unsigned char*));
+    ht->State_Key = (char**)calloc(ht->size, sizeof(char*));
     if(ht->State_Key==NULL)
         Warning_Memory_Allocation(); 
         
@@ -115,7 +113,7 @@ void ht_insert_key(Hash_Table *ht, const char *key) {
 		    index++;
     } 
     
-    ht->State_Key[index] = (unsigned char*)malloc(MAX_KEY_SIZE*sizeof(unsigned char*));
+    ht->State_Key[index] = (char*)malloc(MAX_KEY_SIZE * sizeof(char));
     if(ht->State_Key[index]==NULL)
         Warning_Memory_Allocation();
     strcpy(ht->State_Key[index], key);
@@ -153,7 +151,7 @@ int ht_search(Hash_Table *ht, const State *const state) {
 void Resize_Hash_Table(Hash_Table* ht, const int size) {
 	int i;
 	unsigned int temp_size, temp_count;
-	unsigned char** temp_key;
+	char** temp_key;
     Hash_Table *new_ht = New_Hash_Table(size);
     
     // create new larger hash table
