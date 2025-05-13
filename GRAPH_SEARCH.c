@@ -54,7 +54,7 @@ int main()
     	
     switch(method) 
     {
-        case BreastFirstSearch: 
+        case BreathFirstSearch: 
         case GreedySearch:               
             goal = First_GoalTest_Search_TREE(method, &root, goal_state);  break; 
 		case DepthFirstSearch: 	

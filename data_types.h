@@ -31,9 +31,14 @@ typedef struct State
 
 enum METHODS
 {
-	BreastFirstSearch = 1,   UniformCostSearch = 2,        DepthFirstSearch = 3,    
-	DepthLimitedSearch= 4,   IterativeDeepeningSearch = 5, GreedySearch = 6,
-    AStarSearch = 7, GeneralizedAStarSearch = 8  
+	BreathFirstSearch = 1,
+    UniformCostSearch = 2,
+    DepthFirstSearch = 3,
+	DepthLimitedSearch= 4,
+    IterativeDeepeningSearch = 5,
+    GreedySearch = 6,
+    AStarSearch = 7,
+    GeneralizedAStarSearch = 8
 };
 
 // This struct is used to determine a new state and action in transition model

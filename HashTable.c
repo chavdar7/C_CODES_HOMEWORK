@@ -115,7 +115,7 @@ void ht_insert_key(Hash_Table *ht, const char *key) {
 		    index++;
     } 
     
-    ht->State_Key[index] = (unsigned char*)malloc(MAX_KEY_SIZE*sizeof(unsigned char));
+    ht->State_Key[index] = (unsigned char*)malloc(MAX_KEY_SIZE*sizeof(unsigned char*));
     if(ht->State_Key[index]==NULL)
         Warning_Memory_Allocation();
     strcpy(ht->State_Key[index], key);

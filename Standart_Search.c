@@ -66,6 +66,7 @@ Node* First_InsertFrontier_Search_TREE(const enum METHODS method, Node *const ro
 					
 				switch(method){
                     case UniformCostSearch:
+                        printf("[DEBUG] UniformCostSearch case is active.\n");
 					    if(temp_node!=NULL){
 							if(child->path_cost < temp_node->path_cost) // child.STATE has been in frontier with higher cost
 								Remove_Node_From_Frontier(temp_node, &frontier);
@@ -74,6 +75,7 @@ Node* First_InsertFrontier_Search_TREE(const enum METHODS method, Node *const ro
 						}  
                         Insert_Priority_Queue_UniformSearch(child, &frontier); break;
                     case AStarSearch:
+                        printf("[DEBUG] AStarSearch case is active.\n");
                     	if(temp_node!=NULL){
 							if(child->path_cost + child->state.h_n < temp_node->path_cost + temp_node->state.h_n) // child.STATE has been in frontier with higher cost
 								Remove_Node_From_Frontier(temp_node, &frontier);	
@@ -83,12 +85,29 @@ Node* First_InsertFrontier_Search_TREE(const enum METHODS method, Node *const ro
                         child->state.h_n = Compute_Heuristic_Function(&(child->state), goal_state); 
                         Insert_Priority_Queue_A_Star(child, &frontier); break; 
 					case GeneralizedAStarSearch:
-                    	// complete here for the assingment 
-						// complete here for the assingment 
-						// complete here for the assingment 
-						// complete here for the assingment 
-						// complete here for the assingment 	    
+						printf("[DEBUG] GeneralizedAStarSearch case is active.\n");
+						if(temp_node != NULL){
+							float f_child = alpha * child->path_cost + (1 - alpha) * child->state.h_n;
+							float f_temp  = alpha * temp_node->path_cost + (1 - alpha) * temp_node->state.h_n;
+
+							printf("[DEBUG] f_child: %f, f_temp: %f\n", f_child, f_temp);
+
+							if(f_child < f_temp){
+								printf("[DEBUG] Removing node from frontier.\n");
+								Remove_Node_From_Frontier(temp_node, &frontier);
+							}else{
+								printf("[DEBUG] Skipping node insertion.\n");
+								continue;
+							}
+						}
+
+						child->state.h_n = Compute_Heuristic_Function(&(child->state), goal_state);
+						printf("[DEBUG] Heuristic value (h_n) computed: %f\n", child->state.h_n);
+						Insert_Priority_Queue_GENERALIZED_A_Star(child, &frontier, alpha);
+						printf("[DEBUG] Node inserted into priority queue.\n");
+						break;	    
                     default:
+                        printf("[DEBUG] Default case reached. Method: %d\n", method);
                         printf("ERROR: Unknown method in First_InsertFrontier_Search_TREE.\n");
 						Delete_Hash_Table(explorer_set);  
                         exit(-1);     	   
@@ -163,7 +182,7 @@ Node* First_GoalTest_Search_TREE(const enum METHODS method, Node *const root, St
 			    }
 
 			    switch(method){
-                    case BreastFirstSearch:      
+                    case BreathFirstSearch:      
                         Insert_FIFO(child, &frontier); break;   
                     case GreedySearch:
                         child->state.h_n = Compute_Heuristic_Function(&(child->state), goal_state);
@@ -459,9 +478,39 @@ void Insert_Priority_Queue_A_Star(Node *const child, Queue **frontier)
 //______________________________________________________________________________
 void Insert_Priority_Queue_GENERALIZED_A_Star(Node *const child, Queue **frontier, float alpha) 
 {  
-    // UPDATE THIS FUNCTION FOR HE GENERALIZED A* ALGORITHM
-    
-    return;
+    Queue *temp_queue;  
+    Queue *new_queue = (Queue*)malloc(sizeof(Queue));
+    if(new_queue == NULL)
+        Warning_Memory_Allocation(); 
+        
+    new_queue->node = child;
+
+    float f_child = alpha * child->path_cost + (1 - alpha) * child->state.h_n;
+
+    if(Empty(*frontier)) {
+        new_queue->next = NULL;                 
+        *frontier = new_queue; 
+    } else {
+        float f_temp = alpha * (*frontier)->node->path_cost + (1 - alpha) * (*frontier)->node->state.h_n;
+
+        if(f_child < f_temp) {
+            new_queue->next = *frontier;
+            *frontier = new_queue;
+        } else {
+            for(temp_queue = *frontier; temp_queue->next != NULL; temp_queue = temp_queue->next) {
+                float f_next = alpha * temp_queue->next->node->path_cost + 
+                               (1 - alpha) * temp_queue->next->node->state.h_n;
+
+                if(f_child < f_next) {
+                    new_queue->next = temp_queue->next;   
+                    temp_queue->next = new_queue;
+                    return;
+                }
+            }
+            temp_queue->next = new_queue;  
+            new_queue->next = NULL;    
+        }       
+    }    
 }
 //______________________________________________________________________________
 void Print_Frontier(Queue *const frontier)
