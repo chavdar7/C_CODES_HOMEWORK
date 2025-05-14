@@ -2,9 +2,18 @@
 #include <stdlib.h>
 #include "GRAPH_SEARCH.h"
 #include "data_types.h"
+#include <time.h>
+
+int BOARD_SIZE; 
 
 int main()
 {	
+
+    clock_t start, end;
+    double cpu_time_used;
+    
+    start = clock();
+    
     Node root, *goal;
     State *goal_state = NULL;
     enum METHODS method;
@@ -97,6 +106,11 @@ int main()
     }
 
     Show_Solution_Path(goal);
+    
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC * 1000; // in milliseconds
+printf("Computation Time: %f ms\n", cpu_time_used);
+  
 
     extern void free_blocked_matrix();
     free_blocked_matrix(); // Free the blocked matrix memory
